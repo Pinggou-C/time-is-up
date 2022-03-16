@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Globals/time/pause_module.gd" type="Script" id=1]
+
+[node name="pause_module" type="Spatial" groups=["pauseable"]]
+script = ExtResource( 1 )
