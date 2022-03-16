@@ -11,6 +11,7 @@ export var fall_limit = -1000.0
 
 var pivot
 
+var just_jumped = false
 var playable = true
 var dir = Vector3.ZERO
 var velocity = Vector3.ZERO
@@ -47,8 +48,13 @@ func _physics_process(delta):
 			velocity.y += gravity * delta / 100.0
 			if Input.is_action_just_pressed("jump"):
 				velocity.y = jump_speed
+				just_jumped = true
 		else:
 			velocity.y += gravity * delta
+			if velocity.y > 0 && just_jumped == true:
+				just_jumped = true
+			if Input.is_action_just_released("jump") && just_jumped == true:
+				velocity.y /= 2
 
 		var hvel = velocity
 		hvel.y = 0.0
@@ -62,7 +68,7 @@ func _physics_process(delta):
 		hvel = hvel.linear_interpolate(target, accel * delta)
 		velocity.x = hvel.x
 		velocity.z = hvel.z
-		velocity = move_and_slide(velocity, Vector3.UP, true)
+		velocity = move_and_slide(velocity, Vector3.UP, false, 4, PI/4, false)
 
 		#prevents infinite falling
 		if translation.y < fall_limit and playable:
@@ -83,25 +89,22 @@ func _physics_process(delta):
 					held_item = body
 					relative_position = get_rel_pos(held_item)
 			elif held_item != null:
-				var body := kinem_to_rigid(held_item)
-				if held_item_velocity != null:
-					body.linear_velocity = held_item_velocity * 0.75
-				else: 
-					body.linear_velocity = Vector3(0.01, 0.01, 0.01)
-				body.set_collision_layer_bit(1, true)
-				#body.drop(held_item_velocity * 0.75)
-				print(held_item_velocity)
-				held_item = null
-				for group in held_items_classes:
-					body.add_to_group(group)
+				drop_item()
 		
 		if held_item != null:
 			var current_position = held_item.get_global_transform().origin
 			var next_position = ($pivot.get_global_transform() * relative_position).origin
-			var difference = 1/sqrt(pow(current_position.x - next_position.x, 2) + pow(current_position.y - next_position.y, 2) + pow(current_position.z - next_position.z, 2))
-			print(difference)
-			var held_item_velocity = (next_position - current_position) / delta / 3 / sqrt(difference)
-			held_item_velocity = held_item.move_and_slide(held_item_velocity, Vector3.UP, false, 4, PI/4, false)
+			var difference = sqrt(pow(current_position.x - next_position.x, 2) + pow(current_position.y - next_position.y, 2) + pow(current_position.z - next_position.z, 2))
+			var difference_player = sqrt(pow(current_position.x - $pivot.get_global_transform().origin.x, 2) + pow(current_position.y - $pivot.get_global_transform().origin.y, 2) + pow(current_position.z - $pivot.get_global_transform().origin.z, 2))
+			var current_rotation = held_item.rotation_degrees.y
+			var next_rotation = rotation_degrees.y
+			print(angle_difference(held_item.rotation_degrees.y, rotation_degrees.y))
+			held_item.rotation_degrees.y = lerp(held_item.rotation_degrees.y, held_item.rotation_degrees.y + angle_difference(held_item.rotation_degrees.y, rotation_degrees.y), 0.2)
+			if difference > 1.5 && difference_player > 3.5:
+				drop_item()
+			else:
+				var held_item_velocity = (next_position - current_position) / delta / 3 / sqrt((1/difference))
+				held_item_velocity = held_item.move_and_slide(held_item_velocity, Vector3.UP, false, 4, PI/4, false)
 
 
 #looking around
@@ -113,11 +116,8 @@ func _unhandled_input(event):
 
 # Get relative position of item to `Player` head
 func get_rel_pos(body):
-	$Tween.interpolate_property(body, "global_position",
-	 body.get_global_transform(), $pivot/goal.get_global_transform(),
-	 1/2, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	$Tween.interpolate_property(body, "rotation_degrees",
-	 body.rotation_degrees, $pivot.rotation_degrees, 1/2,
+	$Tween.interpolate_property(body, "rotation_degrees.x",
+	 body.rotation_degrees.y, rotation_degrees.y + 90, 1/3,
 	 Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	var distance = $pivot.get_global_transform().origin - body.get_global_transform().origin
 	var dis = sqrt(pow(distance.x, 2) + pow(distance.y, 2) + pow(distance.z, 2))
@@ -140,3 +140,21 @@ func kinem_to_rigid(kinem: KinematicBody) -> RigidBody:
 	var rigid := RigidBody.new()
 	trans_body(rigid, kinem)
 	return rigid
+
+# Drop held item
+func drop_item():
+	var body := kinem_to_rigid(held_item)
+	if held_item_velocity != null:
+		body.linear_velocity = held_item_velocity * 0.75
+	else: 
+		body.linear_velocity = Vector3(0.01, 0.01, 0.01)
+	body.set_collision_layer_bit(1, true)
+	#body.drop(held_item_velocity * 0.75)
+	print(held_item_velocity)
+	held_item = null
+	for group in held_items_classes:
+		body.add_to_group(group)
+
+func angle_difference(angle1, angle2):
+	var diff = angle2 - angle1
+	return diff if abs(diff) < 180 else diff + (360 * -sign(diff))

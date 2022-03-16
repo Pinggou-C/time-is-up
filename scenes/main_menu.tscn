@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://nodes/label.tscn" type="PackedScene" id=1]
-[ext_resource path="res://fonts/cutive_mono_72.tres" type="DynamicFont" id=2]
+[ext_resource path="res://fonts/themes/main_menu_color.tres" type="StyleBox" id=1]
+[ext_resource path="res://fonts/themes/main_menu.tres" type="Theme" id=2]
 [ext_resource path="res://nodes/button.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/play_button.gd" type="Script" id=5]
 [ext_resource path="res://scripts/quit_button.gd" type="Script" id=6]
@@ -23,20 +23,13 @@ bg_color = Color( 0, 0, 0, 0.25098 )
 
 [node name="main_menu" type="Spatial"]
 
-[node name="title" parent="." instance=ExtResource( 1 )]
-margin_left = 0.0
-margin_top = 88.0
+[node name="Title" type="Label" parent="."]
+margin_top = 60.0
 margin_right = 1920.0
-margin_bottom = 168.0
-custom_fonts/font = ExtResource( 2 )
-text = "First Person Exploration Template"
-
-[node name="credit" parent="." instance=ExtResource( 1 )]
-margin_left = 1278.0
-margin_top = 974.0
-margin_right = 1868.0
-margin_bottom = 1034.0
-text = "Ainlid, 2021"
+margin_bottom = 171.0
+theme = ExtResource( 2 )
+custom_styles/normal = ExtResource( 1 )
+text = "  Time Is UP"
 
 [node name="play_button" parent="." instance=ExtResource( 3 )]
 margin_bottom = 460.0

@@ -22,12 +22,14 @@ current = true
 
 [node name="RayCast" type="RayCast" parent="pivot"]
 enabled = true
-cast_to = Vector3( 0, 0, -4 )
+cast_to = Vector3( 0, 0, -3.4 )
 collision_mask = 2
 
 [node name="goal" type="Position3D" parent="pivot"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
 
 [node name="pause_menu" parent="." instance=ExtResource( 2 )]
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="remove_held_item" type="Timer" parent="."]
