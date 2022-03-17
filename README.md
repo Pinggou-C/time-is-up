@@ -1,2 +1,3 @@
-# first_person_exploration_template
- hopefully helpful
+# Time is Up
+little puzzlegame demo where time can be adjusted on the fly.
+Nohing much special.
