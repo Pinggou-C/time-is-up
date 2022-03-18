@@ -9,16 +9,16 @@ func _ready():
 	self.set_pause_mode(2)
 
 func _process(_delta):
-	if Input.is_action_just_pressed("pause"):
+	#if Input.is_action_just_pressed("pause"):
 		
-		if time == "paused":
-			print('hsi')
-			time = "normal"
-			get_tree().paused = false
-		else:
-			time = "paused"
-			print('hi')
-			get_tree().paused = true
+		#if time == "paused":
+		#	print('hsi')
+	#		time = "normal"
+	#		get_tree().paused = false
+	#	else:
+	#		time = "paused"
+	#		print('hi')
+	#		get_tree().paused = true
 	if Input.is_action_just_pressed("reverse"):
 		if time == "reversed":
 			time = "normal"
