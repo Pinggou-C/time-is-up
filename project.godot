@@ -14,7 +14,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="First Person Exploration Template"
+config/name="Time_is_up"
 config/description="basic but hopefully helpful"
 run/main_scene="res://scenes/main_menu.tscn"
 config/icon="res://icon.png"
