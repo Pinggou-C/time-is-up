@@ -81,8 +81,8 @@ func _physics_process(delta):
 				print("test")
 				if $pivot/RayCast.is_colliding():
 					var coll = $pivot/RayCast.get_collider()
-					print(coll)
 					held_item = coll
+					held_item.get_child(0).picked_up()
 					for group in held_item.get_groups():
 						held_items_classes.append(group)
 					var body := rigid_to_kinem(held_item)
@@ -149,6 +149,7 @@ func drop_item():
 	else: 
 		body.linear_velocity = Vector3(0.01, 0.01, 0.01)
 	body.set_collision_layer_bit(1, true)
+	body.get_child(0).drop()
 	#body.drop(held_item_velocity * 0.75)
 	print(held_item_velocity)
 	held_item = null

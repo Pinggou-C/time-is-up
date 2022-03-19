@@ -16,9 +16,9 @@ func _physics_process(delta):
 
 func _on_Bullet_body_entered(body):
 	print('bye')
-	if type == "pause" && body.is_in_group("pauseable"):
-		fired_by.new_item(body, type)
-	elif type == "reverse" && body.is_in_group("reverseable"):
-		fired_by.new_item(body, type)
+	if type == "pause" && body.get_child(0).is_in_group("pauseable"):
+		fired_by.new_item(body.get_child(0), type)
+	elif type == "reverse" && body.get_child(0).is_in_group("reverseable"):
+		fired_by.new_item(body.get_child(0), type)
 	fired_by.projectile_destroyed(type)
 	print('bye')

@@ -21,26 +21,32 @@ func _physics_process(_delta):
 #sets new actively paused or reversed obejcts
 func new_item(item, type):
 	if type == "pause":
+		if object_pause != null:
+			remove_item(type)
 		object_pause = item
+		item.pause()
 	if type == "reverse":
+		if object_reverse != null:
+			remove_item(type)
 		object_reverse = item
+		item.reverse()
 
 #removes actively paused or reversed items
 func remove_item(type):
 	if type == "pause":
 		if object_pause != null:
-			object_pause.continue()
+			object_pause.Continue()
 			object_pause = null
 	elif type == "reverse":
 		if object_reverse != null:
-			object_reverse.continue()
+			object_reverse.Continue()
 			object_reverse = null
 	elif type == "all":
 		if object_pause != null:
-			object_pause.continue()
+			object_pause.Continue()
 			object_pause = null
 		if object_reverse != null:
-			object_reverse.continue()
+			object_reverse.Continue()
 			projectile_reverse = null
 
 #removes projectiles upon impact
@@ -57,5 +63,9 @@ func projectile_destroyed(type):
 func shoot(type):
 	var b = Bullet.instance()
 	get_parent().get_parent().get_parent().add_child(b)
+	if type == "pause":
+		projectile_pause = b
+	elif type == "reverse":
+		projectile_reverse = b
 	b.start(self, type, global_transform.basis.xform(Vector3.FORWARD))
 	b.transform = $Muzzle.global_transform
