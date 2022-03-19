@@ -82,3 +82,5 @@ one_shot = true
 
 [node name="general" type="Timer" parent="."]
 one_shot = true
+
+[connection signal="timeout" from="general" to="." method="_on_general_timeout"]

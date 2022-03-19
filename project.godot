@@ -96,6 +96,7 @@ reverse={
 
 3d_physics/layer_2="grabbable"
 3d_physics/layer_3="time_effected"
+3d_physics/layer_4="weight"
 
 [rendering]
 

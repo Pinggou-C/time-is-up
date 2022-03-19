@@ -21,4 +21,7 @@ shape = SubResource( 1 )
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
+[node name="deathtimer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]
+[connection signal="timeout" from="deathtimer" to="." method="_on_deathtimer_timeout"]

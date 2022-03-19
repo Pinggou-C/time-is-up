@@ -1,7 +1,7 @@
 extends Spatial
 
-var projectile_pause = null
-var projectile_reverse = null
+var projectile_pause = []
+var projectile_reverse = []
 var can_fire_pause = true
 var can_fire_reverse = true
 var object_pause = null
@@ -11,15 +11,17 @@ export (PackedScene) var Bullet
 
 #fires the gun
 func _physics_process(_delta):
-	if Input.is_action_just_pressed("pause") :
+	if Input.is_action_just_pressed("pause") && can_fire_pause == true :
 		can_fire_pause = false
+		$general.start(0.333)
 		shoot("pause")
 	if Input.is_action_just_pressed("reverse") && can_fire_reverse == true:
 		can_fire_reverse = false
 		shoot("reverse")
+		$general.start(0.333)
 
 #sets new actively paused or reversed obejcts
-func new_item(item, type):
+func new_item(item, type, bullet):
 	if type == "pause":
 		if object_pause != null:
 			remove_item(type)
@@ -47,25 +49,35 @@ func remove_item(type):
 			object_pause = null
 		if object_reverse != null:
 			object_reverse.Continue()
-			projectile_reverse = null
+			object_reverse = null
 
 #removes projectiles upon impact
-func projectile_destroyed(type):
+func projectile_destroyed(type, bullet = null):
 	if type == "pause":
-		projectile_pause.queue_free()
-		projectile_pause = null
-		can_fire_pause = true
+		bullet.queue_free()
+		projectile_pause.erase(bullet)
 	elif type == "reverse":
-		projectile_reverse.queue_free()
-		projectile_reverse = null
-		can_fire_reverse = true
+		bullet.queue_free()
+		projectile_reverse.erase(bullet)
+	elif type == "all":
+		for bullet_reverse in projectile_reverse:
+			projectile_reverse.erase(bullet_reverse)
+			bullet_reverse.queue_free()
+		for bullet_pause in projectile_pause:
+			projectile_pause.erase(bullet_pause)
+			bullet_pause.queue_free()
 
 func shoot(type):
 	var b = Bullet.instance()
 	get_parent().get_parent().get_parent().add_child(b)
 	if type == "pause":
-		projectile_pause = b
+		projectile_pause.append(b)
 	elif type == "reverse":
-		projectile_reverse = b
+		projectile_reverse.append(b)
 	b.start(self, type, global_transform.basis.xform(Vector3.FORWARD))
 	b.transform = $Muzzle.global_transform
+
+
+func _on_general_timeout():
+	can_fire_pause = true
+	can_fire_reverse = true
