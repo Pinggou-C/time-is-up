@@ -97,7 +97,7 @@ func _physics_process(delta):
 			var difference_player = sqrt(pow(current_position.x - $pivot.get_global_transform().origin.x, 2) + pow(current_position.y - $pivot.get_global_transform().origin.y, 2) + pow(current_position.z - $pivot.get_global_transform().origin.z, 2))
 			var current_rotation = held_item.rotation_degrees.y
 			var next_rotation = rotation_degrees.y
-			print(angle_difference(held_item.rotation_degrees.y, rotation_degrees.y))
+			#print(angle_difference(held_item.rotation_degrees.y, rotation_degrees.y))
 			held_item.rotation_degrees.y = lerp(held_item.rotation_degrees.y, held_item.rotation_degrees.y + angle_difference(held_item.rotation_degrees.y, rotation_degrees.y), 0.2)
 			if difference > 1.5 && difference_player > 3.5:
 				drop_item()

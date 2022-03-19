@@ -12,6 +12,7 @@ size = Vector3( 1, 1, 1 )
 mass = 10.0
 
 [node name="pause_module" parent="." instance=ExtResource( 1 )]
+weighted = true
 grabable = true
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
