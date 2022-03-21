@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://nodes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://nodes/test_cube.tscn" type="PackedScene" id=2]
@@ -15,18 +15,6 @@
 [ext_resource path="res://Assets/gun/bullet.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Assets/button/button.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Assets/door/Door.tscn" type="PackedScene" id=15]
-
-[sub_resource type="QuadMesh" id=1]
-size = Vector2( 4, 4 )
-
-[sub_resource type="ViewportTexture" id=2]
-viewport_path = NodePath("Position3D/Viewport")
-
-[sub_resource type="SpatialMaterial" id=3]
-resource_local_to_scene = true
-flags_transparent = true
-flags_unshaded = true
-albedo_texture = SubResource( 2 )
 
 [node name="test" type="Spatial"]
 pause_mode = 2
@@ -144,25 +132,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.46676, 1, 4.21313 )
 [node name="Button" parent="." instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.59453, 3.33786e-06, -0.284109 )
 node_path = NodePath("../Door")
-
-[node name="Position3D" type="Position3D" parent="."]
-
-[node name="Viewport" type="Viewport" parent="Position3D"]
-arvr = true
-size = Vector2( 4096, 4094 )
-transparent_bg = true
-render_target_v_flip = true
-
-[node name="Camera" type="Camera" parent="Position3D/Viewport"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1933, 12.8822 )
-cull_mask = 1048573
-current = true
-
-[node name="MeshInstance" type="MeshInstance" parent="Position3D"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.08005, 2.372, 0.00102115 )
-layers = 2
-mesh = SubResource( 1 )
-material/0 = SubResource( 3 )
 
 [connection signal="player_entered" from="trigger_intro" to="trigger_intro/text_message" method="_show_text"]
 [connection signal="player_exited" from="trigger_intro" to="trigger_intro/text_message" method="_hide_text"]
