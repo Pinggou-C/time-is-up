@@ -7,33 +7,24 @@ var dir = 1
 var olddir = 1
 
 func pause():
-	print('paus')
 	if state == "reversed":
-		print('r')
 		olddir = -dir
 	elif state == "normal":
-		print('rv')
 		olddir = dir
 	state = "paused"
 	dir = 0
 
 func Continue():
-	print('con')
 	if state == "reversed":
-		print('rvv')
 		dir *= -1
 	elif state == "paused":
-		print('rvvv')
 		dir = olddir
 	state = "normal"
 
 func reverse():
-	print('rev')
 	if state == "normal":
-		print('rvvvv')
 		dir *= -1
 	elif state == "paused":
-		print('rvvvvv')
 		dir = -olddir
 	state = "reversed"
 
