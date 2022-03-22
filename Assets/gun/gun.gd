@@ -26,6 +26,7 @@ func _physics_process(_delta):
 
 #sets new actively paused or reversed obejcts
 func new_item(item, type, bullet):
+	
 	if type == "pause":
 		if object_pause != null:
 			remove_item(type)
@@ -80,9 +81,7 @@ func shoot(type):
 	elif type == "reverse":
 		projectile_reverse.append(b)
 	b.start(self, type, global_transform.basis.xform(Vector3.FORWARD))
-	print(global_transform.basis.xform(Vector3.FORWARD))
 	b.transform = $Muzzle.global_transform
-	print($Muzzle.global_transform)
 	$PART.emitting = false
 
 func _on_general_timeout():

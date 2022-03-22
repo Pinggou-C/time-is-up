@@ -26,10 +26,15 @@ func _physics_process(delta):
 
 #detect_collisions
 func _on_Bullet_body_entered(body):
-	if type == "pause" && body.get_child(0).is_in_group("pauseable"):
-		fired_by.new_item(body.get_child(0), type, self)
-	elif type == "reverse" && body.get_child(0).is_in_group("reverseable"):
-		fired_by.new_item(body.get_child(0), type, self)
+	var bod = body.get_child(0)
+	var bod2 = body.get_child(0)
+	if body.is_in_group("moving_platform"):
+		bod2 = body.get_parent()
+		bod = body
+	if type == "pause" && bod.is_in_group("pauseable"):
+		fired_by.new_item(bod2, type, self)
+	elif type == "reverse" && bod.is_in_group("reverseable"):
+		fired_by.new_item(bod2, type, self)
 	fired_by.projectile_destroyed(type, self)
 
 #destroy bullet after set time
