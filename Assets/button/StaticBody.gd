@@ -57,7 +57,9 @@ func _on_Timer_timeout():
 	var body = temp_body
 	temp_body = null
 	on_top.erase(body)
+	body.on_button(self, false)
 	if !on_top.size() > 0:
+		print('ji')
 		if $AnimationPlayer.is_playing():
 			var time = 0.4 - ($AnimationPlayer.current_animation_position)
 			$AnimationPlayer.play("up")
@@ -70,14 +72,17 @@ func _on_Timer_timeout():
 func _on_Timer2_timeout():
 	print("actually hi")
 	var body = temp_body_enter
-	temp_body_enter = null
-	if !on_top.size() > 0:
-		print("actually hi")
-		if $AnimationPlayer.is_playing():
-			var time = 0.4 - ($AnimationPlayer.current_animation_position)
-			$AnimationPlayer.play("down")
-			#$AnimationPlayer.seek(time, true)
-		else:
-			$AnimationPlayer.play("down")
-			#$AnimationPlayer.seek(0, true)
-	on_top.append(body.get_child(0))
+	if on_top.has(body) == false:
+		temp_body_enter = null
+		body.on_button(self, true)
+		if !on_top.size() > 0:
+			print("actually hi")
+			if $AnimationPlayer.is_playing():
+				var time = 0.4 - ($AnimationPlayer.current_animation_position)
+				$AnimationPlayer.play("down")
+				#$AnimationPlayer.seek(time, true)
+			else:
+				$AnimationPlayer.play("down")
+				#$AnimationPlayer.seek(0, true)
+		on_top.append(body)
+	

@@ -44,12 +44,21 @@ func _physics_process(delta):
 
 		
 		if is_on_floor():
+			var colsped = Vector3.ZERO
 			#this prevents you from sliding without messing up the is_on_ground() check
-			velocity.y += gravity * delta / 100.0
+			if !$playform.is_colliding():
+				velocity.y += gravity * delta / 100.0
+			else:
+				var coll = $playform.get_collider()
+				colsped = coll.velocity
+				velocity.y = colsped.y
 			if Input.is_action_just_pressed("jump"):
-				velocity.y = jump_speed
+				velocity.y = colsped.y + jump_speed
 				just_jumped = true
 		else:
+			if $playform.is_colliding():
+				var coll = $playform.get_collider()
+				velocity.y = coll.velocity.y
 			velocity.y += gravity * delta
 			if velocity.y > 0 && just_jumped == true:
 				just_jumped = true
@@ -111,7 +120,7 @@ func _unhandled_input(event):
 	if event is InputEventMouseMotion and playable:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		pivot.rotate_x(-event.relative.y * mouse_sensitivity)
-		pivot.rotation.x = clamp(pivot.rotation.x, -1.2, 1.2)
+		pivot.rotation.x = clamp(pivot.rotation.x, -1.75, 1.9)
 
 # Get relative position of item to `Player` head
 func get_rel_pos(body):

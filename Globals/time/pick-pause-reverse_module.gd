@@ -6,7 +6,8 @@ var velocities = []
 var newvel
 var oldstate
 var cancel_reverse = false
-
+var button
+var counter =0
 
 var parent = "rigid"
 var picked_up = false
@@ -46,7 +47,8 @@ func collision_layer():
 func _physics_process(delta):
 	var parpos = Vector3(stepify(get_parent().get_global_transform().origin.x, 0.01), stepify(get_parent().get_global_transform().origin.y, 0.01), stepify(get_parent().get_global_transform().origin.z, 0.01))
 	if state == "normal" || picked_up:
-		if oldposs != parpos:
+		if oldposs != parpos || (button != null && counter < 2):
+			counter += delta
 			positions.push_front(parpos)
 			if cancel_reverse == true:
 				cancel_reverse = false
@@ -64,7 +66,9 @@ func _physics_process(delta):
 				cancel_reverse = true
 	if oldstate == "reversed" && state != "reversed":
 		if state == "normal":
-			get_parent().linear_velocity = newvel
+			if newvel != null:
+				if parent == "rigid":
+					get_parent().linear_velocity = newvel
 		elif state == "paused":
 			old_velocity = newvel
 			newvel = null
@@ -153,3 +157,12 @@ func kinem_to_rigid(kinem: KinematicBody) -> RigidBody:
 	var rigid := RigidBody.new()
 	trans_body(rigid, kinem)
 	return rigid
+
+func on_button(butt, on):
+	if on:
+		if state != 'reverse':
+			button = butt
+			counter = 0
+	else:
+		button = null
+		counter = 0

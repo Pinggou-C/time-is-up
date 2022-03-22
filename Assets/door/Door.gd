@@ -22,10 +22,10 @@ func power_on():
 		if $AnimationPlayer.current_animation == "close":
 			var time = 0.8 - ($AnimationPlayer.current_animation_position * 2)
 			$AnimationPlayer.play("open")
-			$AnimationPlayer.seek(time, true)
+			#$AnimationPlayer.seek(time, true)
 	else:
 		$AnimationPlayer.play("open")
-		$AnimationPlayer.seek(0, true)
+		#$AnimationPlayer.seek(0, true)
 	powered = true
 	
 
@@ -34,10 +34,10 @@ func power_off():
 		if $AnimationPlayer.current_animation == "open":
 			var time = 0.4 - ($AnimationPlayer.current_animation_position / 2)
 			$AnimationPlayer.play("close")
-			$AnimationPlayer.seek(time, true)
+			#$AnimationPlayer.seek(time, true)
 	else:
 		$AnimationPlayer.play("close")
-		$AnimationPlayer.seek(0, true)
+		#$AnimationPlayer.seek(0, true)
 	powered = false
 
 

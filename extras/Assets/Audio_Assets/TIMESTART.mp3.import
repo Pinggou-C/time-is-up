@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/TIMESTART.mp3-2d1bb8b96a122411cf2130f6885ef795.mp3str"
+
+[deps]
+
+source_file="res://extras/Assets/Audio_Assets/TIMESTART.mp3"
+dest_files=[ "res://.import/TIMESTART.mp3-2d1bb8b96a122411cf2130f6885ef795.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

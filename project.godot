@@ -27,8 +27,8 @@ fullscreen="*res://nodes/fullscreen.tscn"
 
 [display]
 
-window/size/width=2560
-window/size/height=1600
+window/size/width=1366
+window/size/height=768
 window/size/resizable=false
 window/size/fullscreen=true
 window/stretch/mode="2d"
@@ -82,13 +82,17 @@ grab={
 }
 pause={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
-, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 reverse={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+clear={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 
@@ -97,7 +101,21 @@ reverse={
 3d_physics/layer_2="grabbable"
 3d_physics/layer_3="time_effected"
 3d_physics/layer_4="weight"
+3d_physics/layer_5="player"
+3d_physics/layer_6="moving platform"
 
 [rendering]
 
+quality/filters/sharpen_intensity=0.5
+quality/shadow_atlas/size=8192
+quality/shadow_atlas/quadrant_0_subdiv=2
+quality/shadow_atlas/quadrant_1_subdiv=3
+quality/shadow_atlas/quadrant_2_subdiv=4
+quality/shadow_atlas/quadrant_3_subdiv=5
+quality/shadows/filter_mode=2
+quality/filters/anisotropic_filter_level=16
+quality/filters/use_nearest_mipmap_filter=true
+quality/spatial_partitioning/render_tree_balance=1.0
+quality/subsurface_scattering/quality=2
+quality/filters/msaa=4
 environment/default_environment="res://default_env.tres"

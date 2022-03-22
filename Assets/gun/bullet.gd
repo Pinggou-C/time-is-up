@@ -11,6 +11,14 @@ func start(gun, goal, dir):
 	var dir_devider = abs(dir.x) + abs(dir.y) + abs(dir.z)
 	direction = Vector3(dir.x / dir_devider,dir.y / dir_devider, dir.z / dir_devider)
 	$deathtimer.start(10)
+	if goal == 'pause':
+		$MeshInstance2.get_surface_material(0).albedo_color = Color(0, 0, 1)
+		$MeshInstance2.get_surface_material(0).emission = Color(0, 0, 1)
+		$MeshInstance.get_surface_material(0).set_shader_param("_ColorRim", Color(0, 0, 1))
+	if goal == 'reverse':
+		$MeshInstance2.get_surface_material(0).albedo_color = Color(1, 0, 0)
+		$MeshInstance2.get_surface_material(0).emission = Color(1, 0, 0)
+		$MeshInstance.get_surface_material(0).set_shader_param("_ColorRim", Color(1, 0, 0))
 
 func _physics_process(delta):
 	#global_transform.origin +=  delta

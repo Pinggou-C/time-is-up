@@ -1,7 +1,19 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/pause_menu.gd" type="Script" id=1]
 [ext_resource path="res://nodes/button.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/ui/crosshair.png" type="Texture" id=3]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+void fragment() {
+	COLOR.rgb = 1.0 - textureLod(SCREEN_TEXTURE, SCREEN_UV, 0.0).rgb;
+	COLOR.a = texture(TEXTURE , UV).a;
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
 
 [node name="pause_menu" type="CanvasLayer"]
 pause_mode = 2
@@ -16,9 +28,6 @@ anchor_bottom = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.25098 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="button_resume" parent="menu" instance=ExtResource( 2 )]
 text = "resume"
@@ -32,6 +41,12 @@ text = "reload"
 margin_top = 609.0
 margin_bottom = 663.0
 text = "main menu"
+
+[node name="Crosshair" type="Sprite" parent="."]
+material = SubResource( 2 )
+position = Vector2( 683, 384 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
 
 [connection signal="pressed" from="menu/button_resume" to="." method="_unpause_game"]
 [connection signal="pressed" from="menu/button_reload" to="." method="_reload"]

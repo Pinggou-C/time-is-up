@@ -2,142 +2,239 @@
 
 [ext_resource path="res://nodes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://nodes/test_cube.tscn" type="PackedScene" id=2]
-[ext_resource path="res://nodes/audio_player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://nodes/gizmo_cube.tscn" type="PackedScene" id=4]
-[ext_resource path="res://nodes/trigger_area.tscn" type="PackedScene" id=5]
-[ext_resource path="res://audio/cheer_up.wav" type="AudioStream" id=6]
-[ext_resource path="res://nodes/warp_gizmo.tscn" type="PackedScene" id=7]
-[ext_resource path="res://nodes/warp.tscn" type="PackedScene" id=8]
-[ext_resource path="res://nodes/text_message.tscn" type="PackedScene" id=9]
-[ext_resource path="res://nodes/portal.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Assets/world/truepillar.tscn" type="PackedScene" id=3]
+[ext_resource path="res://extras/Objects/3D_Objects/Buttons/button.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/world/GLASS.tscn" type="PackedScene" id=5]
+[ext_resource path="res://extras/Objects/3D_Objects/Doors/Door.tscn" type="PackedScene" id=6]
 [ext_resource path="res://nodes/grabbable/cube.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Globals/time/Time.gd" type="Script" id=12]
-[ext_resource path="res://Assets/gun/bullet.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Assets/platform/StaticBody.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Assets/button/button.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Assets/door/Door.tscn" type="PackedScene" id=15]
 
+[sub_resource type="CubeMesh" id=1]
+size = Vector3( 5, 0.2, 0.2 )
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 0.54902, 0.54902, 0.54902, 1 )
+
+[sub_resource type="ProceduralSky" id=3]
+sky_top_color = Color( 0.313726, 0.607843, 0.768627, 1 )
+sky_horizon_color = Color( 0.662745, 0.705882, 0.741176, 1 )
+sky_curve = 0.0931739
+ground_bottom_color = Color( 0, 0, 0, 1 )
+ground_horizon_color = Color( 0.298039, 0.309804, 0.364706, 1 )
+sun_color = Color( 1, 1, 0.858824, 1 )
+
+[sub_resource type="Environment" id=4]
+background_mode = 2
+background_sky = SubResource( 3 )
+ambient_light_color = Color( 1, 0.996078, 0.913725, 1 )
+ambient_light_energy = 0.5
+ambient_light_sky_contribution = 0.85
+tonemap_mode = 3
+ss_reflections_enabled = true
+ssao_enabled = true
+ssao_radius = 2.0
+ssao_intensity = 0.5
+ssao_radius2 = 3.0
+ssao_intensity2 = 0.5
+ssao_color = Color( 0.145098, 0.141176, 0.172549, 1 )
+dof_blur_far_enabled = true
+dof_blur_far_distance = 50.0
+dof_blur_far_transition = 50.0
+dof_blur_near_distance = 0.5
+dof_blur_near_transition = 0.3
+glow_enabled = true
+glow_bloom = 0.1
+glow_blend_mode = 0
+glow_bicubic_upscale = true
+glow_high_quality = true
+
 [node name="test" type="Spatial"]
-pause_mode = 2
+pause_mode = 1
 script = ExtResource( 12 )
 
 [node name="player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.54277, 4, 5.10609 )
 
-[node name="test_cube" parent="." instance=ExtResource( 2 )]
+[node name="terain" type="Spatial" parent="."]
+
+[node name="CUBES" type="Spatial" parent="terain"]
+
+[node name="test_cube" parent="terain/CUBES" instance=ExtResource( 2 )]
 transform = Transform( 15, 0, 0, 0, 1, 0, 0, 0, 15, 0, -1, 0 )
+skeleton = NodePath("../../..")
 
-[node name="test_cube2" parent="." instance=ExtResource( 2 )]
+[node name="test_cube2" parent="terain/CUBES" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 1.41421, -1.41421, 0, 1.41421, 1.41421, -6.40781, -0.2302, -4.78365 )
+skeleton = NodePath("../../..")
 
-[node name="test_cube3" parent="." instance=ExtResource( 2 )]
+[node name="test_cube3" parent="terain/CUBES" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 1, -1.73205, 0, 1.73205, 1, -10.7083, 0.610714, -4.78365 )
+skeleton = NodePath("../../..")
 
-[node name="trigger_intro" parent="." instance=ExtResource( 5 )]
+[node name="test_cube4" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 3, 9, 4, 0 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube5" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 3, 9, 4, -5.99056 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube6" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 3, 7.05894, 4, -5.99564 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube8" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 3, 7.05894, 4, -11.9838 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube7" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, 3.17061, 4, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube9" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, -2.81059, 4, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube10" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, -8.7782, 4, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube11" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, 3.17061, 11.9775, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube14" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, 9.11833, 4, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube15" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, 9.11833, 11.9775, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube12" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, -2.81059, 11.9775, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube13" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, -8.7782, 11.9775, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube16" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, 3.17061, 19.8967, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube17" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, 9.11833, 19.8967, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube18" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, -2.81059, 19.8967, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="test_cube19" parent="terain/CUBES" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 3, 0, 4, 0, -1, 0, -1.31134e-07, -8.7782, 19.8967, -15.983 )
+skeleton = NodePath("../../..")
+
+[node name="pillars" type="Spatial" parent="terain"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90403, 0, 0 )
+
+[node name="StaticBody" parent="terain/pillars" instance=ExtResource( 3 )]
+transform = Transform( -1, -1.0677e-07, 1.0677e-07, 0, 0.707107, 0.707107, -1.50996e-07, 0.707107, -0.707107, -1.5, 1, 2.25 )
+
+[node name="StaticBody3" parent="terain/pillars" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.5, -2 )
+
+[node name="StaticBody2" parent="terain/pillars" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1, 6 )
+
+[node name="StaticBody4" parent="terain/pillars" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0499797, 1.7941, 10.9833 )
+
+[node name="interactables" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.34516, 5.103, 7.03528 )
+
+[node name="puzzle_elements" type="Spatial" parent="interactables"]
+
+[node name="bottons" type="Spatial" parent="interactables/puzzle_elements"]
+
+[node name="Button" parent="interactables/puzzle_elements/bottons" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.93969, -5.103, -3.84505 )
+node_path = NodePath("../../moving_playforms/Spatial/StaticBody")
+
+[node name="MeshInstance5" type="MeshInstance" parent="interactables/puzzle_elements/bottons/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.93769, -0.0710454, -0.402426 )
+mesh = SubResource( 1 )
+skeleton = NodePath("../../Button2")
+material/0 = SubResource( 2 )
+
+[node name="Button2" parent="interactables/puzzle_elements/bottons" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.93969, -5.103, -9.17547 )
+node_path = NodePath("../../doors/Door")
+
+[node name="MeshInstance2" type="MeshInstance" parent="interactables/puzzle_elements/bottons/Button2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.93769, -0.0710454, -0.354811 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="interactables/puzzle_elements/bottons/Button2"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.48018, 2.5, -0.354811 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="interactables/puzzle_elements/bottons/Button2"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.48018, 5.66372, -0.354811 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="doors" type="Spatial" parent="interactables/puzzle_elements"]
+
+[node name="Door" parent="interactables/puzzle_elements/doors" instance=ExtResource( 15 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.3452, 3.897, -9.53528 )
+
+[node name="moving_playforms" type="Spatial" parent="interactables/puzzle_elements"]
+
+[node name="Spatial" type="Spatial" parent="interactables/puzzle_elements/moving_playforms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.93969, -5.103, -7.31939 )
+
+[node name="Position3D" type="Position3D" parent="interactables/puzzle_elements/moving_playforms/Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 2 )
+
+[node name="Position3D2" type="Position3D" parent="interactables/puzzle_elements/moving_playforms/Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4, 8, 2 )
+
+[node name="StaticBody" parent="interactables/puzzle_elements/moving_playforms/Spatial" instance=ExtResource( 13 )]
+
+[node name="pickables" type="Spatial" parent="interactables"]
+
+[node name="timeeffected" type="Spatial" parent="interactables/pickables"]
+
+[node name="RigidBody4" parent="interactables/pickables/timeeffected" groups=["pauseable"] instance=ExtResource( 11 )]
 pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 
-[node name="gizmo_cube" parent="trigger_intro" instance=ExtResource( 4 )]
+[node name="envoirement" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.63846, 0 )
 
-[node name="text_message" parent="trigger_intro" instance=ExtResource( 9 )]
-message = "welcome to the template!
-use WASD and mouse to move.
-you can jump with Space and
-run with Space bar."
+[node name="DirectionalLight" type="DirectionalLight" parent="envoirement"]
+transform = Transform( -1, 6.18173e-08, -6.18173e-08, 0, 0.707107, 0.707107, 8.74228e-08, 0.707107, -0.707107, -0.000536443, 0.00688028, -0.00687981 )
+layers = 0
+light_color = Color( 1, 0.992157, 0.898039, 1 )
+light_energy = 0.7
+light_cull_mask = 4293918723
+shadow_enabled = true
+shadow_color = Color( 0, 0.0470588, 0.188235, 1 )
+shadow_bias = 0.01
+shadow_contact = 0.1
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 25.0
 
-[node name="trigger_text" parent="." instance=ExtResource( 5 )]
-pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0657303, 1.03841, -7.96259 )
+[node name="WorldEnvironment" type="WorldEnvironment" parent="envoirement"]
+environment = SubResource( 4 )
 
-[node name="gizmo_cube" parent="trigger_text" instance=ExtResource( 4 )]
+[node name="Door" parent="envoirement" instance=ExtResource( 6 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8, -0.7, -10.757 )
 
-[node name="text_message" parent="trigger_text" instance=ExtResource( 9 )]
-message = "this is a trigger area.
-you can use it to display text."
-
-[node name="trigger_audio" parent="." instance=ExtResource( 5 )]
-pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.435, 1.03841, -7.96259 )
-
-[node name="gizmo_cube" parent="trigger_audio" instance=ExtResource( 4 )]
-
-[node name="audio_player" parent="trigger_audio" instance=ExtResource( 3 )]
-stream = ExtResource( 6 )
-
-[node name="text_message" parent="trigger_audio" instance=ExtResource( 9 )]
-message = "or play audio!"
-
-[node name="RigidBody4" parent="." groups=["pauseable"] instance=ExtResource( 11 )]
-pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.79014, 5.103, -1.55304 )
-
-[node name="RigidBody5" parent="." groups=["pauseable"] instance=ExtResource( 11 )]
-pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.13117, 5.103, -1.55304 )
-
-[node name="trigger_warp" parent="." instance=ExtResource( 5 )]
-pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.53478, 1.03841, -7.96259 )
-
-[node name="gizmo_cube" parent="trigger_warp" instance=ExtResource( 4 )]
-
-[node name="text_message" parent="trigger_warp" instance=ExtResource( 9 )]
-message = "or teleport the player around the scene."
-fade_out_time = 2.0
-
-[node name="warp" parent="trigger_warp" instance=ExtResource( 8 )]
-player_path = NodePath("../../player")
-target_path = NodePath("../../warp_gizmo")
-
-[node name="trigger_portal" parent="." instance=ExtResource( 5 )]
-pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.4342, 1.03841, -7.96259 )
-
-[node name="gizmo_cube" parent="trigger_portal" instance=ExtResource( 4 )]
-
-[node name="text_message" parent="trigger_portal" instance=ExtResource( 9 )]
-message = "and change the scene."
-
-[node name="portal" parent="trigger_portal" instance=ExtResource( 10 )]
-path = "main_menu"
-
-[node name="trigger_extra" parent="." instance=ExtResource( 5 )]
-pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.4342, 1.03841, 1.21845 )
-
-[node name="gizmo_cube" parent="trigger_extra" instance=ExtResource( 4 )]
-
-[node name="text_message" parent="trigger_extra" instance=ExtResource( 9 )]
-message = "but really, you can connect it to any function!
-have fun!"
-fade_out_time = 2.0
-
-[node name="warp_gizmo" parent="." instance=ExtResource( 7 )]
-pause_mode = 1
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9.88904, 1, -3.60238 )
-
-[node name="Bullet" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.7817, 9.73159, 3.00649 )
-
-[node name="Door" parent="." instance=ExtResource( 15 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.46676, 1, 4.21313 )
-
-[node name="Button" parent="." instance=ExtResource( 14 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.59453, 3.33786e-06, -0.284109 )
-node_path = NodePath("../Door")
-
-[connection signal="player_entered" from="trigger_intro" to="trigger_intro/text_message" method="_show_text"]
-[connection signal="player_exited" from="trigger_intro" to="trigger_intro/text_message" method="_hide_text"]
-[connection signal="player_entered" from="trigger_text" to="trigger_text/text_message" method="_show_text"]
-[connection signal="player_exited" from="trigger_text" to="trigger_text/text_message" method="_hide_text"]
-[connection signal="player_entered" from="trigger_audio" to="trigger_audio/audio_player" method="_play_sound"]
-[connection signal="player_entered" from="trigger_audio" to="trigger_audio/text_message" method="_show_text"]
-[connection signal="player_exited" from="trigger_audio" to="trigger_audio/audio_player" method="_stop_sound"]
-[connection signal="player_exited" from="trigger_audio" to="trigger_audio/text_message" method="_hide_text"]
-[connection signal="player_entered" from="trigger_warp" to="trigger_warp/text_message" method="_show_text"]
-[connection signal="player_entered" from="trigger_warp" to="trigger_warp/warp" method="_warp_start"]
-[connection signal="player_exited" from="trigger_warp" to="trigger_warp/text_message" method="_hide_text"]
-[connection signal="player_entered" from="trigger_portal" to="trigger_portal/text_message" method="_show_text"]
-[connection signal="player_entered" from="trigger_portal" to="trigger_portal/portal" method="_portal_use"]
-[connection signal="player_exited" from="trigger_portal" to="trigger_portal/text_message" method="_hide_text"]
-[connection signal="player_entered" from="trigger_extra" to="trigger_extra/text_message" method="_show_text"]
-[connection signal="player_exited" from="trigger_extra" to="trigger_extra/text_message" method="_hide_text"]
+[node name="Button" parent="envoirement" instance=ExtResource( 4 )]
+transform = Transform( 1, -7.10543e-15, 7.10543e-15, 0, 1, 0, 0, 0, 1, 0, -3.19034, -12.3423 )

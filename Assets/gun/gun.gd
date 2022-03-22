@@ -13,12 +13,16 @@ export (PackedScene) var Bullet
 func _physics_process(_delta):
 	if Input.is_action_just_pressed("pause") && can_fire_pause == true :
 		can_fire_pause = false
+		can_fire_reverse = false
 		$general.start(0.333)
 		shoot("pause")
 	if Input.is_action_just_pressed("reverse") && can_fire_reverse == true:
 		can_fire_reverse = false
+		can_fire_pause = false
 		shoot("reverse")
 		$general.start(0.333)
+	if Input.is_action_just_pressed("clear"):
+		remove_item("all")
 
 #sets new actively paused or reversed obejcts
 func new_item(item, type, bullet):
@@ -69,14 +73,17 @@ func projectile_destroyed(type, bullet = null):
 
 func shoot(type):
 	var b = Bullet.instance()
+	$PART.emitting = true
 	get_parent().get_parent().get_parent().add_child(b)
 	if type == "pause":
 		projectile_pause.append(b)
 	elif type == "reverse":
 		projectile_reverse.append(b)
 	b.start(self, type, global_transform.basis.xform(Vector3.FORWARD))
+	print(global_transform.basis.xform(Vector3.FORWARD))
 	b.transform = $Muzzle.global_transform
-
+	print($Muzzle.global_transform)
+	$PART.emitting = false
 
 func _on_general_timeout():
 	can_fire_pause = true

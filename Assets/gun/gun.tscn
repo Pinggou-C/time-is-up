@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/gun/gun.gd" type="Script" id=1]
 [ext_resource path="res://Assets/gun/Material__3260.material" type="Material" id=2]
@@ -50,6 +50,27 @@ surfaces/0 = {
 "vertex_count": 72
 }
 
+[sub_resource type="SpatialMaterial" id=6]
+flags_transparent = true
+albedo_color = Color( 1, 1, 0, 0.803922 )
+emission_enabled = true
+emission = Color( 1, 0.839216, 0.113725, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="SphereMesh" id=4]
+material = SubResource( 6 )
+radius = 0.008
+height = 0.016
+radial_segments = 8
+rings = 4
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0, 1 ), 0.0, -0.544504, 0, 0, Vector2( 0.941176, 0.730682 ), -0.0515151, -0.0515151, 0, 0, Vector2( 1, 0.0579545 ), -42.6547, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=8]
+
 [node name="gun" type="Spatial"]
 transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0 )
 script = ExtResource( 1 )
@@ -63,14 +84,17 @@ transform = Transform( 1, 0, 0, 0, 2.22045e-16, 1, 0, -1, 2.22045e-16, 0, 0, 0 )
 [node name="Portal gunobjcleanermaterialmergergles" type="Spatial" parent="Sketchfab_model"]
 
 [node name="Object_2" type="MeshInstance" parent="Sketchfab_model/Portal gunobjcleanermaterialmergergles"]
+layers = 512
 mesh = SubResource( 1 )
 material/0 = null
 
 [node name="Object_3" type="MeshInstance" parent="Sketchfab_model/Portal gunobjcleanermaterialmergergles"]
+layers = 512
 mesh = SubResource( 2 )
 material/0 = null
 
 [node name="Object_4" type="MeshInstance" parent="Sketchfab_model/Portal gunobjcleanermaterialmergergles"]
+layers = 512
 mesh = SubResource( 3 )
 material/0 = null
 
@@ -82,5 +106,33 @@ one_shot = true
 
 [node name="general" type="Timer" parent="."]
 one_shot = true
+
+[node name="PART" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.99318, -8.86845 )
+emitting = false
+amount = 15
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+randomness = 0.25
+lifetime_randomness = 0.75
+local_coords = false
+mesh = SubResource( 4 )
+direction = Vector3( 0, 0.5, -2 )
+spread = 34.91
+gravity = Vector3( 0, -2, 0 )
+initial_velocity = 35.0
+initial_velocity_random = 0.44
+linear_accel = -2.0
+linear_accel_random = 0.51
+damping = 0.1
+angle_random = 0.27
+scale_amount = 0.75
+scale_amount_random = 0.76
+scale_amount_curve = SubResource( 7 )
+color = Color( 1, 1, 0, 1 )
+color_ramp = SubResource( 8 )
+hue_variation = 0.2
+hue_variation_random = 1.0
 
 [connection signal="timeout" from="general" to="." method="_on_general_timeout"]
