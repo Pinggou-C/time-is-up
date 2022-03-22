@@ -87,12 +87,18 @@ func Collision_layer():
 func pause():
 	state = 'paused'
 	print("pause")
+	$mesh/outline2.visible = true
+	$mesh/outline1.visible = false
 
 func reverse():
 	state = "reversed"
+	$mesh/outline2.visible = false
+	$mesh/outline1.visible = true
 
 func Continue():
 	state = "normal"
+	$mesh/outline1.visible = false
+	$mesh/outline2.visible = false
 
 func power(by):
 	powered = true
