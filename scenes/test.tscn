@@ -66,21 +66,13 @@ stream = ExtResource( 6 )
 [node name="text_message" parent="trigger_audio" instance=ExtResource( 9 )]
 message = "or play audio!"
 
-[node name="RigidBody" parent="." groups=["pauseable"] instance=ExtResource( 11 )]
-pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.535, 5.103, 0 )
-
-[node name="RigidBody2" parent="." groups=["pauseable"] instance=ExtResource( 11 )]
-pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.79014, 5.103, 0 )
-
-[node name="RigidBody3" parent="." groups=["pauseable"] instance=ExtResource( 11 )]
-pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.55069, 6.01423, -1.55304 )
-
 [node name="RigidBody4" parent="." groups=["pauseable"] instance=ExtResource( 11 )]
 pause_mode = 1
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.79014, 5.103, -1.55304 )
+
+[node name="RigidBody5" parent="." groups=["pauseable"] instance=ExtResource( 11 )]
+pause_mode = 1
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.13117, 5.103, -1.55304 )
 
 [node name="trigger_warp" parent="." instance=ExtResource( 5 )]
 pause_mode = 1
