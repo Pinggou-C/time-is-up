@@ -10,7 +10,7 @@ var button
 var counter =0
 
 var parent = "rigid"
-var picked_up = false
+var pickedup = false
 var state = "normal"
 export (String, "Pause", "reverse", "both", "none") var type = "none"
 export (bool) var weighted = false
@@ -46,7 +46,7 @@ func collision_layer():
 
 func _physics_process(delta):
 	var parpos = Vector3(stepify(get_parent().get_global_transform().origin.x, 0.01), stepify(get_parent().get_global_transform().origin.y, 0.01), stepify(get_parent().get_global_transform().origin.z, 0.01))
-	if state == "normal" || picked_up:
+	if state == "normal" || pickedup:
 		if oldposs != parpos || (button != null && counter < 2):
 			counter += delta
 			positions.push_front(parpos)
@@ -55,7 +55,7 @@ func _physics_process(delta):
 			if parent == "rigid":
 				velocities.push_front(get_parent().linear_velocity)
 	elif state == "reversed":
-		if !picked_up && !cancel_reverse:
+		if !pickedup && !cancel_reverse:
 			get_parent().global_transform.origin = positions[0]
 			positions.remove(0)
 			if velocities.size() > 0:
@@ -78,10 +78,10 @@ func _physics_process(delta):
 func pause():
 	get_parent().get_child(2).get_child(0).visible = true
 	get_parent().get_child(2).get_child(1).visible = false
-	if picked_up == false:
+	if pickedup == false:
 		if parent == "rigid":
 			old_velocity = get_parent().linear_velocity
-			var body := rigid_to_kinem(get_parent())
+			var _body := rigid_to_kinem(get_parent())
 			collision_layer()
 			parent = "kinem"
 	state = "paused"
@@ -89,9 +89,9 @@ func pause():
 func Continue():
 	get_parent().get_child(2).get_child(0).visible = false
 	get_parent().get_child(2).get_child(1).visible = false
-	if picked_up == false:
+	if pickedup == false:
 		if parent == "kinem":
-			var body := kinem_to_rigid(get_parent())
+			var _body := kinem_to_rigid(get_parent())
 		$Tween.interpolate_property(get_parent(), "linear_velocity", Vector3.ZERO, old_velocity, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
 		old_velocity = Vector3.ZERO
 		collision_layer()
@@ -101,9 +101,9 @@ func Continue():
 func reverse():
 	get_parent().get_child(2).get_child(0).visible = false
 	get_parent().get_child(2).get_child(1).visible = true
-	if picked_up == false:
+	if pickedup == false:
 		if parent == "rigid":
-			var body := rigid_to_kinem(get_parent())
+			var _body := rigid_to_kinem(get_parent())
 			collision_layer()
 			parent = "kinem"
 	state = "reversed"
@@ -111,7 +111,7 @@ func reverse():
 
 func picked_up():
 	var body = get_parent()
-	picked_up = true
+	pickedup = true
 	if parent == "rigid":
 		body = rigid_to_kinem(get_parent())
 		parent = "kinem"
@@ -119,7 +119,7 @@ func picked_up():
 
 func drop(vel):
 	var body = get_parent()
-	picked_up = false
+	pickedup = false
 	if state == "paused":
 		if parent == "rigid":
 			rigid_to_kinem(get_parent())

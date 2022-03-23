@@ -1,10 +1,13 @@
+tool
 extends PathFollow
 
 export(int) var sped = 0
 var state = "normal"
 export (String, "Pause", "reverse", "both", "none") var type = "none"
+export (Array, Vector3) var positions setget pos
 var dir = 1
 var olddir = 1
+var path = []
 
 func pause():
 	if state == "reversed":
@@ -30,6 +33,12 @@ func reverse():
 
 
 func _ready():
+	print(get_parent())
+	for i  in get_parent().get_curve().get_point_count():
+		path.append(get_parent().get_curve().get_point_position(i))
+	print(path)
+	#var vectors = PoolVector2Array(Array([path]))
+	#print(vectors)
 	get_child(0).add_to_group("moving_platform")
 	if type == "Pause":
 		get_child(0).add_to_group("pauseable")
@@ -54,7 +63,19 @@ func _physics_process(delta):
 	elif stepify(unit_offset, 0.01) == 0:
 		dir = 1
 
-func _on_Area_body_entered(body):
+func _on_Area_body_entered(_body):
 	print('hi')
 	set_physics_process(true)
 
+func vel():
+	pass
+
+func pos(new):
+	print(self,get_parent())
+	print(new)
+	for i in new:
+		var node = Position3D.new()
+		add_child(node)
+		node.translation = i 
+		print(node.get_global_transform().origin)
+	positions = new

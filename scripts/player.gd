@@ -8,7 +8,7 @@ export var mouse_sensitivity = 0.002
 export var acceleration = 4.0
 export var friction = 9.0
 export var fall_limit = -1000.0
-
+var oldvel = Vector3.ZERO
 var pivot
 
 var just_jumped = false
@@ -58,7 +58,10 @@ func _physics_process(delta):
 		else:
 			if $playform.is_colliding():
 				var coll = $playform.get_collider()
-				velocity.y = coll.velocity.y
+				if coll.is_in_group("moving_platform"):
+					velocity.y = coll.get_parent().vel()
+				else:
+					velocity.y = coll.velocity.y
 			velocity.y += gravity * delta
 			if velocity.y > 0 && just_jumped == true:
 				just_jumped = true
@@ -77,7 +80,19 @@ func _physics_process(delta):
 		hvel = hvel.linear_interpolate(target, accel * delta)
 		velocity.x = hvel.x
 		velocity.z = hvel.z
+	#w	print(velocity,oldvel)
+		
 		velocity = move_and_slide(velocity, Vector3.UP, false, 4, PI/4, false)
+		if abs(velocity.x - oldvel.x) >20:
+			print(1)
+			velocity.x = oldvel.x #+velocity.x / 500
+		if abs(velocity.y - oldvel.y) >20:
+			print(2)
+			velocity.y = oldvel.y #+velocity.y / 500
+		if abs(velocity.z - oldvel.z) >20:
+			print(3)
+			velocity.z = oldvel.z #+velocity.z / 500
+		oldvel = velocity
 
 		#prevents infinite falling
 		if translation.y < fall_limit and playable:
@@ -104,14 +119,14 @@ func _physics_process(delta):
 			var next_position = ($pivot.get_global_transform() * relative_position).origin
 			var difference = sqrt(pow(current_position.x - next_position.x, 2) + pow(current_position.y - next_position.y, 2) + pow(current_position.z - next_position.z, 2))
 			var difference_player = sqrt(pow(current_position.x - $pivot.get_global_transform().origin.x, 2) + pow(current_position.y - $pivot.get_global_transform().origin.y, 2) + pow(current_position.z - $pivot.get_global_transform().origin.z, 2))
-			var current_rotation = held_item.rotation_degrees.y
-			var next_rotation = rotation_degrees.y
+			#var current_rotation = held_item.rotation_degrees.y
+			#var _next_rotation = rotation_degrees.y
 			#print(angle_difference(held_item.rotation_degrees.y, rotation_degrees.y))
 			held_item.rotation_degrees.y = lerp(held_item.rotation_degrees.y, held_item.rotation_degrees.y + angle_difference(held_item.rotation_degrees.y, rotation_degrees.y), 0.2)
 			if difference > 1.5 && difference_player > 3.5:
 				drop_item()
 			else:
-				var held_item_velocity = (next_position - current_position) / delta / 3 / sqrt((1/difference))
+				held_item_velocity = (next_position - current_position) / delta / 3 / sqrt((1/difference))
 				held_item_velocity = held_item.move_and_slide(held_item_velocity, Vector3.UP, false, 4, PI/4, false)
 
 
@@ -124,11 +139,11 @@ func _unhandled_input(event):
 
 # Get relative position of item to `Player` head
 func get_rel_pos(body):
-	$Tween.interpolate_property(body, "rotation_degrees.x",
-	 body.rotation_degrees.y, rotation_degrees.y + 90, 1/3,
-	 Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	#$Tween.interpolate_property(body, "rotation_degrees.x",
+	# body.rotation_degrees.y, rotation_degrees.y + 90, 1/3,
+	# Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	var distance = $pivot.get_global_transform().origin - body.get_global_transform().origin
-	var dis = sqrt(pow(distance.x, 2) + pow(distance.y, 2) + pow(distance.z, 2))
+	var _dis = sqrt(pow(distance.x, 2) + pow(distance.y, 2) + pow(distance.z, 2))
 	return $pivot.get_global_transform().inverse() * $pivot/goal.get_global_transform()
 
 # Replace `Physicsbody`

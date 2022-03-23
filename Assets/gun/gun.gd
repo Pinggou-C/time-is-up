@@ -25,8 +25,7 @@ func _physics_process(_delta):
 		remove_item("all")
 
 #sets new actively paused or reversed obejcts
-func new_item(item, type, bullet):
-	
+func new_item(item, type, _bullet):
 	if type == "pause":
 		if object_pause != null:
 			remove_item(type)

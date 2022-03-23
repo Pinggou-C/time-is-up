@@ -285,6 +285,7 @@ transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 4.98227, -4.80532, 10.8
 shape = SubResource( 8 )
 
 [node name="PathFollow" type="PathFollow" parent="interactables/puzzle_elements/Spatial/Path"]
+process_priority = -2
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.70215, -1.49093, -6.97339 )
 rotation_mode = 0
 cubic_interp = false
@@ -292,17 +293,16 @@ loop = false
 script = ExtResource( 7 )
 sped = 3
 type = "both"
+positions = [ Vector3( -2.483, 0, 0 ), Vector3( 0, 0, 7.466 ), Vector3( 0, 0, 0 ) ]
 
 [node name="KinematicBody" type="KinematicBody" parent="interactables/puzzle_elements/Spatial/Path/PathFollow"]
 transform = Transform( 1.25, 0, 0, 0, 1, 0, 0, 0, 1.25, 0, 0, 0 )
 collision_layer = 37
 
 [node name="CollisionShape" type="CollisionShape" parent="interactables/puzzle_elements/Spatial/Path/PathFollow/KinematicBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 7 )
 
 [node name="MeshInstance" type="MeshInstance" parent="interactables/puzzle_elements/Spatial/Path/PathFollow/KinematicBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 mesh = SubResource( 6 )
 skeleton = NodePath("../..")
 material/0 = null

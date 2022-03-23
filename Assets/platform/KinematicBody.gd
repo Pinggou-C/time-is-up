@@ -11,7 +11,7 @@ var velocity = Vector3.ZERO
 var originalpos = Vector3.ZERO
 var goalpos = Vector3.ZERO
 
-func Connect(by):
+func Connect(_by):
 	pass
 
 func _ready():
@@ -100,12 +100,12 @@ func Continue():
 	$mesh/outline1.visible = false
 	$mesh/outline2.visible = false
 
-func power(by):
+func power(_by):
 	powered = true
 
-func unpower(by):
+func unpower(_by):
 	powered = false
 
 
-func _on_Area_body_entered(body):
+func _on_Area_body_entered(_body):
 	pass # Replace with function body.

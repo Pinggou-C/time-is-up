@@ -49,7 +49,7 @@ func _on_Area_body_exited(body):
 	
 
 
-func _on_Tween_tween_completed(object, key):
+func _on_Tween_tween_completed(_object, _key):
 	$AnimationPlayer.playback_speed = 1
 
 func _on_Timer_timeout():
@@ -61,7 +61,7 @@ func _on_Timer_timeout():
 	if !on_top.size() > 0:
 		print('ji')
 		if $AnimationPlayer.is_playing():
-			var time = 0.4 - ($AnimationPlayer.current_animation_position)
+			#var time = 0.4 - ($AnimationPlayer.current_animation_position)
 			$AnimationPlayer.play("up")
 			#$AnimationPlayer.seek(time, true)
 		else:
@@ -78,7 +78,7 @@ func _on_Timer2_timeout():
 		if !on_top.size() > 0:
 			print("actually hi")
 			if $AnimationPlayer.is_playing():
-				var time = 0.4 - ($AnimationPlayer.current_animation_position)
+				#var time = 0.4 - ($AnimationPlayer.current_animation_position)
 				$AnimationPlayer.play("down")
 				#$AnimationPlayer.seek(time, true)
 			else:
