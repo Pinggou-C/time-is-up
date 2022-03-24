@@ -5,7 +5,7 @@ export var walk_speed = 5.0
 export var run_speed = 16.0
 export var jump_speed = 10.0
 export var mouse_sensitivity = 0.002
-export var acceleration = 4.0
+export var acceleration = 10.0
 export var friction = 9.0
 export var fall_limit = -1000.0
 var oldvel = Vector3.ZERO
@@ -31,6 +31,7 @@ func _physics_process(delta):
 	dir = Vector3.ZERO
 	var speed = walk_speed
 	var basis = global_transform.basis
+	var extravel = Vector3.ZERO
 	if playable:
 		if Input.is_action_pressed("move_forward"):
 			dir -= basis.z
@@ -45,24 +46,57 @@ func _physics_process(delta):
 		
 		if is_on_floor():
 			var colsped = Vector3.ZERO
+			var collid = false
 			#this prevents you from sliding without messing up the is_on_ground() check
-			if !$playform.is_colliding():
+			var nr = 0
+			var playform = $playform.get_children()
+			while nr < playform.size()-1 && collid == false:
+				nr+=1
+				if playform[nr].is_colliding():
+					collid = true
+					var coll = playform[nr].get_collider()
+					if coll.get_child(0).is_in_group("pickable"):
+						if coll.get_child(0).parent == "static":
+							extravel = coll.get_child(0).vel()/delta
+							if extravel != Vector3.ZERO:
+								var xtravel = (-get_global_transform().origin + coll.get_global_transform().origin) /delta *1.5
+								print(xtravel, ":g")
+								extravel.x += xtravel.x 
+								extravel.z += xtravel.z 
+								extravel.y += xtravel.y
+								#global_transform.origin += xtravel
+					else:
+						velocity.y = coll.velocity.y
+			if collid == false:
 				velocity.y += gravity * delta / 100.0
-			else:
-				var coll = $playform.get_collider()
-				colsped = coll.velocity
-				velocity.y = colsped.y
 			if Input.is_action_just_pressed("jump"):
 				velocity.y = colsped.y + jump_speed
 				just_jumped = true
 		else:
-			if $playform.is_colliding():
-				var coll = $playform.get_collider()
-				if coll.is_in_group("moving_platform"):
-					velocity.y = coll.get_parent().vel()
-				else:
-					velocity.y = coll.velocity.y
-			velocity.y += gravity * delta
+			var ex = 1
+			var collid = false
+			var nr = 0
+			var playform = $playform.get_children()
+			while nr < playform.size()-1 && collid == false:
+				nr+=1
+				if playform[nr].is_colliding():
+					collid = true
+					var coll = playform[nr].get_collider()
+					if coll.get_child(0).is_in_group("pickable"):
+						if coll.get_child(0).parent == "static":
+							ex = 2
+							extravel = coll.get_child(0).vel()/delta
+							if extravel != Vector3.ZERO:
+								var xtravel = (-get_global_transform().origin + coll.get_global_transform().origin) /delta *1.5
+								print(xtravel, ":g")
+								extravel.x += xtravel.x
+								extravel.z += xtravel.z
+								extravel.y += xtravel.y 
+								#global_transform.origin += xtravel
+					else:
+						velocity.y = coll.velocity.y
+			if collid == false:
+				velocity.y += gravity * delta * ex
 			if velocity.y > 0 && just_jumped == true:
 				just_jumped = true
 			if Input.is_action_just_released("jump") && just_jumped == true:
@@ -71,19 +105,22 @@ func _physics_process(delta):
 		var hvel = velocity
 		hvel.y = 0.0
 
-		var target = dir * speed
+		var target = dir * speed #+ extravel * 2
 		var accel
 		if dir.dot(hvel) > 0.0:
 			accel = acceleration
 		else:
 			accel = friction
 		hvel = hvel.linear_interpolate(target, accel * delta)
-		velocity.x = hvel.x
-		velocity.z = hvel.z
-	#w	print(velocity,oldvel)
-		
+		velocity.x =  hvel.x + extravel.x
+		velocity.z =  hvel.z + extravel.z
+		#print(extravel, velocity)
+		#extravel = slide(extravel, Vector3.UP, false, 4, PI/4, false)
 		velocity = move_and_slide(velocity, Vector3.UP, false, 4, PI/4, false)
-		if abs(velocity.x - oldvel.x) >20:
+		
+		velocity.x -=  extravel.x
+		velocity.z -=  extravel.z
+		"""if abs(velocity.x - oldvel.x) >20:
 			print(1)
 			velocity.x = oldvel.x #+velocity.x / 500
 		if abs(velocity.y - oldvel.y) >20:
@@ -92,7 +129,7 @@ func _physics_process(delta):
 		if abs(velocity.z - oldvel.z) >20:
 			print(3)
 			velocity.z = oldvel.z #+velocity.z / 500
-		oldvel = velocity
+		oldvel = velocity"""
 
 		#prevents infinite falling
 		if translation.y < fall_limit and playable:

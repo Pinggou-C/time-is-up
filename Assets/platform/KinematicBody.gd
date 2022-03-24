@@ -54,13 +54,13 @@ func _physics_process(delta):
 						print("hi4")
 						velocity.y = speed
 					else:
-						velocity.y = (goalpos.y - pos.y)* 2
+						velocity.y = (goalpos.y - pos.y)* speed
 			elif state == 'reversed':
 				if pos != originalpos:
 					if abs(originalpos.y - pos.y) >1:
 						velocity.y = -speed
 					else:
-						velocity.y =  (originalpos.y - pos.y )* 2
+						velocity.y =  (originalpos.y - pos.y )* speed
 		if powered == false:
 			if state == 'paused':
 				velocity = Vector3.ZERO
@@ -69,7 +69,7 @@ func _physics_process(delta):
 					if abs(originalpos.y - pos.y) >1:
 						velocity.y = -speed
 					else:
-						velocity.y =  (originalpos.y - pos.y)* 2
+						velocity.y =  (originalpos.y - pos.y)* speed
 			elif state == 'reversed':
 				velocity = Vector3.ZERO
 	#print(velocity)

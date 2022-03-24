@@ -57,3 +57,5 @@ visible = false
 mesh = SubResource( 3 )
 skeleton = NodePath("")
 material/0 = ExtResource( 3 )
+
+[node name="center" type="Position3D" parent="."]

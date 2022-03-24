@@ -72,6 +72,7 @@ pause_mode = 1
 script = ExtResource( 12 )
 
 [node name="player" parent="." instance=ExtResource( 1 )]
+process_priority = -1
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.26675, 11.3245, 2.53088 )
 
 [node name="terain" type="Spatial" parent="."]
@@ -317,8 +318,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.85959, -3.60845, -9.19333 )
 
 [node name="RigidBody5" parent="interactables/pickables/timeeffected" groups=["pauseable"] instance=ExtResource( 11 )]
 pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.90014, 9.49314, -33.8734 )
-can_sleep = false
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79908, 9.49227, -33.8585 )
 
 [node name="envoirement" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.63846, 0 )

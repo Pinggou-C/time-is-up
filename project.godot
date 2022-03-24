@@ -105,6 +105,10 @@ clear={
 3d_physics/layer_5="player"
 3d_physics/layer_6="moving platform"
 
+[physics]
+
+common/physics_fps=120
+
 [rendering]
 
 quality/filters/sharpen_intensity=0.5
