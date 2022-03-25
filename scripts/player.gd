@@ -42,61 +42,68 @@ func _physics_process(delta):
 		if Input.is_action_pressed("move_right"):
 			dir += basis.x
 		dir = dir.normalized()
-
+		var snap 
 		
 		if is_on_floor():
 			var colsped = Vector3.ZERO
-			var collid = false
+			snap = Vector3.DOWN *20
+			print(snap)
+			#var collid = false
 			#this prevents you from sliding without messing up the is_on_ground() check
-			var nr = 0
-			var playform = $playform.get_children()
-			while nr < playform.size()-1 && collid == false:
-				nr+=1
-				if playform[nr].is_colliding():
-					collid = true
-					var coll = playform[nr].get_collider()
-					if coll.get_child(0).is_in_group("pickable"):
-						if coll.get_child(0).parent == "static":
-							extravel = coll.get_child(0).vel()/delta
-							if extravel != Vector3.ZERO:
-								var xtravel = (-get_global_transform().origin + coll.get_global_transform().origin) /delta *1.5
-								print(xtravel, ":g")
-								extravel.x += xtravel.x 
-								extravel.z += xtravel.z 
-								extravel.y += xtravel.y
+			#var nr = 0
+			#var playform = $playform.get_children()
+			#while nr < playform.size()-1 && collid == false:
+				#nr+=1
+				#if playform[nr].is_colliding():
+				#	collid = true
+				#	var coll = playform[nr].get_collider()
+				#	if coll.get_child(0).is_in_group("pickable"):
+				#		if coll.get_child(0).parent == "static":
+				#			pass
+							#extravel = coll.get_child(0).vel()/delta
+							#if extravel != Vector3.ZERO:
+								#var xtravel = (-get_global_transform().origin + coll.get_global_transform().origin) /delta *1.5
+								#print(xtravel, ":g")
+								#extravel.x += xtravel.x 
+								#extravel.z += xtravel.z 
+								#extravel.y += xtravel.y
 								#global_transform.origin += xtravel
-					else:
-						velocity.y = coll.velocity.y
-			if collid == false:
-				velocity.y += gravity * delta / 100.0
+				#	else:
+				#		velocity.y = coll.velocity.y
+			#if collid == false:
+			velocity.y += gravity * delta / 100.0
 			if Input.is_action_just_pressed("jump"):
 				velocity.y = colsped.y + jump_speed
+				snap = Vector3.ZERO
 				just_jumped = true
 		else:
 			var ex = 1
-			var collid = false
-			var nr = 0
-			var playform = $playform.get_children()
-			while nr < playform.size()-1 && collid == false:
-				nr+=1
-				if playform[nr].is_colliding():
-					collid = true
-					var coll = playform[nr].get_collider()
-					if coll.get_child(0).is_in_group("pickable"):
-						if coll.get_child(0).parent == "static":
-							ex = 2
-							extravel = coll.get_child(0).vel()/delta
-							if extravel != Vector3.ZERO:
-								var xtravel = (-get_global_transform().origin + coll.get_global_transform().origin) /delta *1.5
-								print(xtravel, ":g")
-								extravel.x += xtravel.x
-								extravel.z += xtravel.z
-								extravel.y += xtravel.y 
+			snap = Vector3.ZERO
+			print(snap)
+			#var collid = false
+			#var nr = 0
+			#var playform = $playform.get_children()
+			#while nr < playform.size()-1 && collid == false:
+			#	nr+=1
+				#if playform[nr].is_colliding():
+				#	collid = true
+				#	var coll = playform[nr].get_collider()
+				#	if coll.get_child(0).is_in_group("pickable"):
+				#		if coll.get_child(0).parent == "static":
+				#			pass
+							#ex = 2
+							#extravel = coll.get_child(0).vel()/delta
+							#if extravel != Vector3.ZERO:
+							#	var xtravel = (-get_global_transform().origin + coll.get_global_transform().origin) /delta *1.5
+							#	print(xtravel, ":g")
+							#	extravel.x += xtravel.x
+							#	extravel.z += xtravel.z
+							#	extravel.y += xtravel.y 
 								#global_transform.origin += xtravel
-					else:
-						velocity.y = coll.velocity.y
-			if collid == false:
-				velocity.y += gravity * delta * ex
+				#	else:
+				#		velocity.y = coll.velocity.y
+			#i#f collid == false:
+			velocity.y += gravity * delta * ex
 			if velocity.y > 0 && just_jumped == true:
 				just_jumped = true
 			if Input.is_action_just_released("jump") && just_jumped == true:
@@ -112,14 +119,15 @@ func _physics_process(delta):
 		else:
 			accel = friction
 		hvel = hvel.linear_interpolate(target, accel * delta)
-		velocity.x =  hvel.x + extravel.x
-		velocity.z =  hvel.z + extravel.z
+		velocity.x =  hvel.x #+ extravel.x
+		velocity.z =  hvel.z #+ extravel.z
 		#print(extravel, velocity)
 		#extravel = slide(extravel, Vector3.UP, false, 4, PI/4, false)
-		velocity = move_and_slide(velocity, Vector3.UP, false, 4, PI/4, false)
 		
-		velocity.x -=  extravel.x
-		velocity.z -=  extravel.z
+		velocity = move_and_slide_with_snap(velocity,snap, Vector3.UP, false, 4, PI/4, false)
+		
+		#velocity.x -=  extravel.x
+		#velocity.z -=  extravel.z
 		"""if abs(velocity.x - oldvel.x) >20:
 			print(1)
 			velocity.x = oldvel.x #+velocity.x / 500
@@ -139,7 +147,7 @@ func _physics_process(delta):
 		#handles grabbing of items
 		if Input.is_action_just_pressed("grab"):
 			if held_item == null:
-				print("test")
+				#print("test")
 				if $pivot/RayCast.is_colliding():
 					var coll = $pivot/RayCast.get_collider()
 					held_item = coll

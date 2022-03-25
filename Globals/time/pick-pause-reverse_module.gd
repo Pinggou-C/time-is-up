@@ -84,7 +84,6 @@ func _physics_process(delta):
 				var _X10 = stepif(_X9+((_X12 - _X9)/ 3 + vel/12/10), 0.01)
 				var _X11 = stepif(_X10+((_X12 - _X10)/ 2 + vel/12/11), 0.01)
 				var _X_ = [_X1, _X2, _X3, _X4, _X5, _X6, _X7, _X8, _X9, _X10, _X11, _X12]
-				print(_X_)
 				for _X in _X_:
 					positions.push_front(_X)
 				
@@ -149,15 +148,13 @@ func reverse():
 	get_parent().get_child(2).get_child(1).visible = true
 	if pickedup == false:
 		if parent == "rigid":
-			var _body := rigid_to_static(get_parent())
+			var _body := rigid_to_kinem(get_parent())
 			collision_layer()
-			parent = "static"
-			print(_body)
-		elif parent == "kinem":
-			var _body := kinem_to_static(get_parent())
+			parent = "kinem"
+		elif parent == "static":
+			var _body := static_to_kinem(get_parent())
 			collision_layer()
-			parent = "static"
-			print(_body)
+			parent = "kinem"
 	state = "reversed"
 
 
@@ -191,13 +188,13 @@ func drop(vel):
 		if parent == "rigid":
 			get_parent().get_child(2).get_child(0).visible = false
 			get_parent().get_child(2).get_child(1).visible = true
-			rigid_to_static(get_parent())
-			parent = "static"
-		if parent == "kinem":
+			rigid_to_kinem(get_parent())
+			parent = "kinem"
+		if parent == "static":
 			get_parent().get_child(2).get_child(0).visible = false
 			get_parent().get_child(2).get_child(1).visible = true
-			kinem_to_static(get_parent())
-			parent = "static"
+			static_to_kinem(get_parent())
+			parent = "kinem"
 	elif state == "normal":
 		get_parent().get_child(2).get_child(0).visible = false
 		get_parent().get_child(2).get_child(1).visible = false
@@ -258,7 +255,6 @@ func on_button(butt, on):
 
 func vel():
 	var ve = (get_parent().get_global_transform().origin - oldpos)
-	print(ve)
 	return ve
 
 
